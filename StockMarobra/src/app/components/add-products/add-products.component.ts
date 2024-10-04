@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AddProductsService } from '../../services/add-products.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { timeout } from 'rxjs';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -11,36 +11,48 @@ import { timeout } from 'rxjs';
   styleUrl: './add-products.component.css'
 })
 export class AddProductsComponent {
-
-  constructor(private activeModal: NgbActiveModal, private productService: AddProductsService, private toastr: ToastrService) { }
-
+  public productForm: FormGroup;
+  constructor(private activeModal: NgbActiveModal, private productService: AddProductsService, private toastr: ToastrService, private formBuilder: FormBuilder) { }
+  ngOnInit() {
+    this.productForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      width: ['', [Validators.required, Validators.min(0)]],
+      height: ['', [Validators.required, Validators.min(0)]],
+      length: ['', [Validators.required, Validators.min(0)]],
+      currentQ: ['', [Validators.required, Validators.min(0)]],
+    });
+  }
 
   addProduct(): void {
-    this.productService.add().subscribe({
-      next: (response) => {
-        console.log(response.status)
-        console.log("entrop")
-        if (response.status >= 200 && response.status <= 299) {
-          this.toastr.success('Agregaste el producto', 'Exito')
-          setTimeout(() => {
-            this.activeModal.close(true);
-          }, 500)
+    console.log(this.productForm.controls['name'].errors)
+    console.log(this.productForm.controls['width'].errors);
+    console.log(this.productForm.controls['height'].errors);
+    console.log(this.productForm.controls['length'].errors);
+    console.log(this.productForm.controls['currentQ'].errors);
+    if (this.productForm.valid) {
+      this.productService.add().subscribe({
+        next: (response) => {
+          console.log(response.status)
+          console.log("entrop")
+          if (response.status >= 200 && response.status <= 299) {
+            this.toastr.success('Agregaste el producto', 'Exito')
+            setTimeout(() => {
+              this.activeModal.close(true);
+            }, 500)
+          }
+        },
+        error: (error) => {
+          const errorMessage = error.error?.message || 'No se pudo agregar el producto';
+          this.toastr.error(errorMessage, 'Error', {
+            timeOut: 3000,
+            positionClass: 'toast-top-right'
+          })
         }
-        this.toastr.error('No se pudo agregar el producto', 'Error', {
-          timeOut: 3000,
-          positionClass: 'toast-top-right'
-        })
-        this.activeModal.close(false);
-
-      },
-      error: (error) => {
-        const errorMessage = error.error?.message || 'No se pudo agregar el producto';
-        this.toastr.error(errorMessage, 'Error', {
-          timeOut: 3000,
-          positionClass: 'toast-top-right'
-        })
-      }
-    });
+      });
+    }
+    else {
+      this.toastr.error('Por favor, completa todos los campos', 'Error')
+    }
   }
 
   closeModal() {

@@ -8,7 +8,8 @@ import { Stock } from '../modules/stock';
 })
 
 export class AddProductsService {
-  private url = "https://api-stockmarobra.onrender.com/products"
+ private url = "https://api-stockmarobra.onrender.com/products"
+ //private url = "http://localhost:3000/products"
   constructor(private http: HttpClient) { }
 
   add(): Observable<any> {
@@ -26,15 +27,11 @@ export class AddProductsService {
   get(): Observable<any> {
     return this.http.get(this.url)
   }
-  // delete(id: string): Observable<any>{
-  //   return this.http.delete(this.url, id, {Header: string})
-  // }
   delete(id: string): Observable<any> {
     return this.http.delete(this.url + "/" + id)
   }
-  upgrade(id: string): Observable<any> {
-    let product = new Product()
-    return this.http.put(this.url + "/" + id, product)
+  upgrade(product: Product): Observable<any> {
+    return this.http.put(this.url + "/" + product.id, product)
   }
   getById(id: string): Observable<any>{
     return this.http.get(this.url + "/" + id)

@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Product } from '../../modules/products';
+import { ToastrService } from 'ngx-toastr';
+import { AddProductsService } from '../../services/add-products.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-mod-product',
@@ -8,14 +11,54 @@ import { Product } from '../../modules/products';
 })
 export class ModProductComponent {
   product = new Product()
-  
-  constructor() {
-    this.product = new Product(); // Inicializa el producto si no se recibe
-  }
+  @ViewChild('nameInput') nameInput!: ElementRef;
+  @ViewChild('widthInput') widthInput!: ElementRef;
+  @ViewChild('heightInput') heightInput!: ElementRef;
+  @ViewChild('lengthInput') lengthInput!: ElementRef;
+  @ViewChild('inboundInput') inboundInput!: ElementRef;
+  @ViewChild('outboundInput') outboundInput!: ElementRef;
 
-  // Aquí puedes agregar métodos para manejar la actualización
+
+  constructor(private activeModal: NgbActiveModal, private toastr: ToastrService, private productServices : AddProductsService ) { }
+
   updateProduct() {
-    // Lógica para actualizar el producto
-    console.log(this.product); // Para verificar los datos
+    console.log("1v") 
+    console.log(this.product);
+    const nameValue = this.nameInput.nativeElement.value.trim()
+    const widthValue = this.widthInput.nativeElement.value.trim()
+    const heightValue = this.heightInput.nativeElement.value.trim()
+    const lengthValue = this.lengthInput.nativeElement.value.trim()
+    const inboundValue = this.inboundInput.nativeElement.value.trim()
+    const outboundValue = this.outboundInput.nativeElement.value.trim()
+
+    this.product.name = nameValue ? nameValue : this.product.name
+    this.product.width = widthValue ? Number(widthValue) : this.product.width
+    this.product.height = heightValue ? Number(heightValue) : this.product.height
+    this.product.length = lengthValue ? Number(lengthValue) : this.product.length
+    const inbound = inboundValue ? Number(inboundValue) : this.product.stock.inbound
+    const outbound = outboundValue ? Number(outboundValue) : this.product.stock.outbound
+    const quantity = Number( (this.product.stock.quantity + inbound!) - outbound!)
+    console.log(quantity)
+    if(quantity > 0){
+      this.product.stock.quantity = quantity
+      this.product.stock.inbound = inbound
+      this.product.stock.outbound = outbound
+
+      this.productServices.upgrade(this.product).subscribe(response => {
+        this.toastr.success('El producto  ha sido actualizado con éxito', 'Actualizado')
+        this.activeModal.close(true)
+      })
+    }
+    else{
+      this.toastr.error('La cantidad actual es negativa', 'Error')
+    }
+    
+    
+    console.log("2")
+    console.log(this.product);
+
+  }
+  closeModal2(){
+    this.activeModal.close(false);
   }
 }
