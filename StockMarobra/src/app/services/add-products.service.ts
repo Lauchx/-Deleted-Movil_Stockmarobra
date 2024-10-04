@@ -11,7 +11,7 @@ export class AddProductsService {
   private url = "https://api-stockmarobra.onrender.com/products"
   constructor(private http: HttpClient) { }
 
-  add(): Observable<HttpResponse<any>> {
+  add(): Observable<any> {
     let stock = new Stock();
     stock.quantity = parseInt((document.getElementById("currentQ") as HTMLInputElement)?.value)
     let product = new Product()

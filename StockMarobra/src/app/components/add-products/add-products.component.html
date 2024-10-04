@@ -6,21 +6,16 @@
         <div class="modal-body container-fluid">
             <h1>Agregar Producto</h1>
             <div>
-                <input id="name" class="form-control" placeholder="Nombre" type="text">
-                <input id="width" class="form-control" placeholder="Ancho" type="number">
-                <input id="height" class="form-control" placeholder="Alto" type="number">
-                <input id="length" class="form-control" placeholder="Largo" type="number">
-                <input id="currentQ" class="form-control" placeholder="Cantidad Actual" type="number">
+                <input id="name" class="form-control" placeholder="Nombre" type="text" required>
+                <input id="width" class="form-control" placeholder="Ancho" type="number" required>
+                <input id="height" class="form-control" placeholder="Alto" type="number" required>
+                <input id="length" class="form-control" placeholder="Largo" type="number" required>
+                <input id="currentQ" class="form-control" placeholder="Cantidad Actual" type="number" required>
 
             </div>
         </div> 
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="addProduct()" >Agregar</button>
-</div>
-
-
-<div *ngIf="error === true">
-    <p>error</p>
+    <button type="button" class="btn btn-primary" (click)="addProduct()" >Agregar</button>
 </div>

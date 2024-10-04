@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { Product } from '../../modules/products';
 import { AddProductsService } from '../../services/add-products.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { HttpResponse } from '@angular/common/http';
+import { timeout } from 'rxjs';
 
 
 @Component({
@@ -12,26 +11,36 @@ import { HttpResponse } from '@angular/common/http';
   styleUrl: './add-products.component.css'
 })
 export class AddProductsComponent {
-   error = false
-  constructor(private activeModal: NgbActiveModal, private productService: AddProductsService,  private toast: ToastrService) { }
+
+  constructor(private activeModal: NgbActiveModal, private productService: AddProductsService, private toastr: ToastrService) { }
 
 
   addProduct(): void {
-    this.productService.add().subscribe((response: HttpResponse<any>) => {
-      if (response.status >= 200 && response.status <= 299) {
-        this.activeModal.close(true)
-        this.toast.success('Agregaste el producto', 'Success')
-      } else {
-        this.activeModal.close(false)
-        this.error = true
-        this.toast.error("No se  pudo agregar el producto")
+    this.productService.add().subscribe({
+      next: (response) => {
         console.log(response.status)
-      }
-      if(response.status >= 100 && response.status <= 199){
-        console.log("CARLITOS")
+        console.log("entrop")
+        if (response.status >= 200 && response.status <= 299) {
+          this.toastr.success('Agregaste el producto', 'Exito')
+          setTimeout(() => {
+            this.activeModal.close(true);
+          }, 500)
+        }
+        this.toastr.error('No se pudo agregar el producto', 'Error', {
+          timeOut: 3000,
+          positionClass: 'toast-top-right'
+        })
+        this.activeModal.close(false);
 
+      },
+      error: (error) => {
+        const errorMessage = error.error?.message || 'No se pudo agregar el producto';
+        this.toastr.error(errorMessage, 'Error', {
+          timeOut: 3000,
+          positionClass: 'toast-top-right'
+        })
       }
-    })
+    });
   }
 
   closeModal() {
