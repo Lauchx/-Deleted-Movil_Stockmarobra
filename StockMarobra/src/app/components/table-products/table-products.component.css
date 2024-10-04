@@ -1,0 +1,39 @@
+table {
+    border-collapse: collapse;
+    overflow: hidden;
+    margin: auto;
+    border-radius: 10px;
+}
+
+button {
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 25px;
+}
+
+th {
+    background: rgb(202, 202, 202);
+    text-align: left;
+}
+
+
+tr:nth-child(even) {
+    background: rgb(240, 240, 240);
+
+}
+
+input {
+    align-items: center;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+tfoot {
+    background: rgb(245, 245, 245);
+}
+
+td {
+    margin: 10px;
+}

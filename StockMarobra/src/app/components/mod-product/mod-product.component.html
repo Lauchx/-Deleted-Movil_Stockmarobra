@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <!-- <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button> -->
+</div>
+<div class="modal-body">
+    <form (ngSubmit)="updateProduct()"> <!-- Utiliza ngSubmit para manejar el envío -->
+        <h1>Actualizar Producto</h1>
+        <div>
+            <label >Nombre</label>
+            <input id="name" class="form-control" placeholder="Nuevo Nombre" [(ngModel)]="product.name" name="name" required>
+            <label >Ancho</label>
+            <input id="width" class="form-control" placeholder="Nuevo Ancho" [(ngModel)]="product.width" type="number" name="width" >
+            <label>Alto</label>
+            <input id="height" class="form-control" placeholder="Nuevo Alto" [(ngModel)]="product.height" type="number" name="height" >
+            <label>Largo</label>
+            <input id="length" class="form-control" placeholder="Nuevo Largo" [(ngModel)]="product.length" type="number" name="length" >
+            <label>Alta</label>
+            <input id="inbound" class="form-control" placeholder="Nuevo Entrante" type="number" name="inbound" [(ngModel)]="product.stock.outbound" type="number" name="currentQ" required>
+            <label>Baja</label>
+            <input id="outbound" class="form-control" placeholder="Nuevo Saliente" type="number" name="outbound" [(ngModel)]="product.stock.inbound" type="number" name="currentQ" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar</button> <!-- Botón para enviar -->
+    </form>
+</div>
+<div class="modal-footer">
+    <!-- <button type="button" class="btn btn-outline-secondary" (click)="addProduct()" >Actualizar</button> -->
+</div>
+
