@@ -1,7 +1,7 @@
-<button (click)="addProduct()"> Agregar Producto </button>
+<button id="add" (click)="addProduct()"> Agregar Producto </button>
 <table>
     <thead>
-        <tr>
+        <tr id="cabeza">
             <th>Nombre</th>
             <th>Cantidad Actual</th>
             <th>Ancho</th>
@@ -18,8 +18,8 @@
             <td>{{Product.width}}</td>
             <td>{{Product.height}}</td>
             <td>{{Product.length}}</td>
-            <td><button (click)="Product.id ? delete(Product.id) : null" >Eliminar</button></td>
-            <td><button (click)="Product.id ? getById(Product.id): null" >Actualizar</button></td>
+            <td><button id="delete" (click)="Product.id ? delete(Product.id) : null" >Eliminar</button></td>
+            <td><button id="update" (click)="Product.id ? getById(Product.id): null" >Actualizar</button></td>
         </tr>
     </tbody>
 </table>
