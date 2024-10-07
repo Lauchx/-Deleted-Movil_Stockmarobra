@@ -7,19 +7,19 @@
             <th>Ancho</th>
             <th>Alto</th>
             <th>Largo</th>
-            <th></th>
-            <th></th>
+            <th>Eliminar</th>
+            <th>Actualizar</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let Product of productsList" id="{{Product.id}}">
-            <td><b>{{Product.name}}</b></td>
+            <td class="prod-name"><b>{{Product.name}}</b></td>
             <td><b>{{Product.stock.quantity}}</b></td>
             <td>{{Product.width}}</td>
             <td>{{Product.height}}</td>
             <td>{{Product.length}}</td>
-            <td><button id="delete" (click)="Product.id ? delete(Product.id) : null"><b>Eliminar</b></button></td>
-            <td><button  id="update" (click)="Product.id ? getById(Product.id): null"><b>Actualizar</b></button></td>
+            <td><button id="delete" (click)="Product.id ? delete(Product.id) : null"><b>X</b></button></td>
+            <td><button  id="update" (click)="Product.id ? getById(Product.id): null"><b>⟳</b></button></td>
         </tr>
     </tbody>
 </table>
