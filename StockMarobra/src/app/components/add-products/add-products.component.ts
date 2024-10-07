@@ -51,7 +51,7 @@ export class AddProductsComponent {
       });
     }
     else {
-      this.toastr.error('Por favor, completa todos los campos', 'Error')
+      this.toastr.error('Por favor, completa todos los campos. Los campos numéricos deben ir el positivo', 'Error')
     }
   }
 
