@@ -39,7 +39,7 @@ export class ModProductComponent {
     const outbound = outboundValue ? Number(outboundValue) : this.product.stock.outbound
     const quantity = Number( (this.product.stock.quantity + inbound!) - outbound!)
     console.log(quantity)
-    if(quantity > 0){
+    if(quantity >= 0){
       this.product.stock.quantity = quantity
       this.product.stock.inbound = inbound
       this.product.stock.outbound = outbound
